@@ -40,12 +40,7 @@ public class TransactionStreamProcessor {
                 .map(ByteString::utf8String)
                 .map((Function<String, Transaction>) reader::readValue)
                 .via(processTransactionAndTransformResult())
-                .toMat(Sink.foreach(new Procedure<TransactionResult>() {
-                    @Override
-                    public void apply(final TransactionResult result) {
-                        log.info("Transaction result={} after processing transactionId={}", result, result.getTransactionId());
-                    }
-                }), Keep.right());
+                .toMat(Sink.foreach(result -> log.info("Transaction result={} after processing transactionId={}", result, result.getTransactionId())), Keep.right());
 
     }
 

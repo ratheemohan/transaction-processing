@@ -26,7 +26,7 @@ public class TransactionService implements Service {
 
     private final EventService eventService;
     private final Materializer materializer;
-    private final int LOWER_TRANSACTION_LIMIT = 100;
+    private final int TRANSACTION_LOWER_LIMIT = 100;
 
     TransactionService(final EventService eventService, final Materializer materializer) {
         this.eventService = eventService;
@@ -46,7 +46,7 @@ public class TransactionService implements Service {
         return Flow.of(Transaction.class)
                 .mapAsync(1, (Function<Transaction, CompletionStage<ValidationResult>>) tx -> {
                     //made up this validation to prove the failure condition
-                    if (tx.getAmount().compareTo(BigDecimal.valueOf(LOWER_TRANSACTION_LIMIT)) <= 0) {
+                    if (tx.getAmount().compareTo(BigDecimal.valueOf(TRANSACTION_LOWER_LIMIT)) <= 0) {
                         eventService.processEvent(buildEvent(FAILED_VALIDATION, tx.getTransactionId()));
                         return CompletableFuture.completedStage(new ValidationResult(tx, VALIDATION_FAILED));
                     }

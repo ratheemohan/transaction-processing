@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TransactionStreamProcessorTest {
 
-    private final TransactionStreamProcessor processor = new TransactionStreamProcessor("/Users/RatheeMohan/Projects/Java/transaction-processing/src/test/resources/transactions.txt");
+    private final TransactionStreamProcessor processor = new TransactionStreamProcessor("/src/test/resources/transactions.txt");
 
     @Test
     public void shouldProcessTransaction() {
